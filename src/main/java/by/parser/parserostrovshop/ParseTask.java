@@ -49,7 +49,6 @@ public class ParseTask extends Task<Void> {
         for (String link : links) {
             updateMessage("Получение данных по ссылке " + link);
 
-
             String name;
             String brand = null;
             long barcode = 0;
@@ -108,7 +107,14 @@ public class ParseTask extends Task<Void> {
                             int multiplier2 = Integer.parseInt(countText.substring(countText.indexOf(" ")).trim());
 
                             countInPackage = multiplier1 * multiplier2;
-                        } else {
+                            continue;
+                        }if (countText.contains("+")){
+                            countText = countText.replaceAll("\\D", " ").trim();
+                            int term1 = Integer.parseInt(countText.substring(0, countText.indexOf(" ")).trim());
+                            int term2 = Integer.parseInt(countText.substring(countText.indexOf(" ")).trim());
+
+                            countInPackage = term1 + term2;
+                        }else {
                             countText = countText.replaceAll("\\D", " ").trim();
                             countInPackage = Integer.parseInt(countText);
                             updateMessage("Получение количества по ссылке " + link);
