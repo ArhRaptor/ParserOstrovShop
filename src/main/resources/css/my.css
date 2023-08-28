@@ -21,3 +21,11 @@
     );
     -fx-accent: #0369b3;
 }
+
+.check-box:selected .mark {
+    -fx-background-color: white;
+}
+
+.check-box:selected .box {
+    -fx-background-color: #0369b3;
+}

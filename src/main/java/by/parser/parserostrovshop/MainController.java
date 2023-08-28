@@ -8,8 +8,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Optional;
+
+import static by.parser.parserostrovshop.Category.*;
 
 
 public class MainController {
@@ -24,8 +27,50 @@ public class MainController {
     private ProgressBar progressBar;
 
     @FXML
-    void initialize() {
+    private CheckBox cbPampers;
 
+    @FXML
+    private CheckBox cbNappies;
+
+    @FXML
+    private CheckBox cbWipes;
+
+
+    private final ArrayList<String> categories = new ArrayList<>();
+
+    @FXML
+    void initialize() {
+        cbPampers.setOnAction(actionEvent -> {
+            if (cbPampers.isSelected()) {
+                categories.add(PAMPERS.code);
+                categories.add(ADULT_PAMPERS.code);
+                categories.add(PANTIES.code);
+            } else {
+                categories.remove(PAMPERS.code);
+                categories.remove(ADULT_PAMPERS.code);
+                categories.remove(PANTIES.code);
+            }
+        });
+
+        cbNappies.setOnAction(actionEvent -> {
+            if (cbNappies.isSelected()) {
+                categories.add(NAPPIES.code);
+            } else {
+                categories.remove(NAPPIES.code);
+            }
+        });
+
+        cbWipes.setOnAction(actionEvent -> {
+            if (cbWipes.isSelected()) {
+                categories.add(WIPES.code);
+                categories.add(CHILDREN_WIPES.code);
+                categories.add(TOILET_PAPER.code);
+            } else {
+                categories.remove(WIPES.code);
+                categories.remove(CHILDREN_WIPES.code);
+                categories.remove(TOILET_PAPER.code);
+            }
+        });
     }
 
     @FXML
@@ -36,7 +81,7 @@ public class MainController {
         if (file != null) {
             tfPath.setText(file.getAbsoluteFile().toString());
         } else {
-            if (tfPath.getText().equals("")) {
+            if (tfPath.getText().isEmpty()) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Не указан путь к файлу и его наименование.");
                 alert.setTitle("Создание файла");
                 alert.setHeaderText(null);
@@ -50,7 +95,7 @@ public class MainController {
 
     @FXML
     void btnStart(ActionEvent event) {
-        if (tfPath.getText().trim().equals("")) {
+        if (tfPath.getText().trim().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Укажите путь к файлу и его имя!");
             alert.setTitle("Создание файла");
             alert.setHeaderText(null);
@@ -58,15 +103,26 @@ public class MainController {
             stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/image/ico.png"))));
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) event.consume();
-        }else {
+        } else {
             progressBar.setVisible(true);
             labelProgress.setVisible(true);
 
-            ParseTask myTask = new ParseTask(tfPath.getText().trim());
+            if (!cbPampers.isSelected() && !cbNappies.isSelected() && !cbWipes.isSelected()){
+                categories.clear();
+                categories.add(PAMPERS.code);
+                categories.add(PANTIES.code);
+                categories.add(ADULT_PAMPERS.code);
+                categories.add(WIPES.code);
+                categories.add(CHILDREN_WIPES.code);
+                categories.add(TOILET_PAPER.code);
+                categories.add(NAPPIES.code);
+            }
+
+            ParseTask myTask = new ParseTask(tfPath.getText().trim(), categories);
             progressBar.progressProperty().bind(myTask.progressProperty());
             labelProgress.textProperty().bind(myTask.messageProperty());
 
-            myTask.setOnSucceeded(myEvent ->{
+            myTask.setOnSucceeded(myEvent -> {
                 progressBar.setVisible(false);
                 labelProgress.setVisible(false);
 

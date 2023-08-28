@@ -2,6 +2,7 @@
 
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.TextField?>
@@ -11,9 +12,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="383.0" prefWidth="665.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.parser.parserostrovshop.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="383.0" prefWidth="629.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.parser.parserostrovshop.MainController">
    <children>
-      <ImageView fitHeight="204.0" fitWidth="436.0" layoutX="153.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="157.0" AnchorPane.leftAnchor="153.0" AnchorPane.rightAnchor="182.41250610351562" AnchorPane.topAnchor="22.0">
+      <ImageView fitHeight="389.0" fitWidth="665.0" layoutX="6.0" opacity="0.36" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../../../image/background.png" />
          </image>
@@ -21,17 +22,17 @@
             <Cursor fx:constant="DEFAULT" />
          </cursor>
       </ImageView>
-      <TextField fx:id="tfPath" editable="false" layoutX="48.0" layoutY="252.0" prefHeight="35.0" prefWidth="436.0" AnchorPane.leftAnchor="48.0">
+      <TextField fx:id="tfPath" editable="false" layoutX="34.0" layoutY="265.0" prefHeight="35.0" prefWidth="436.0" AnchorPane.leftAnchor="30.0">
          <effect>
             <DropShadow />
          </effect>
       </TextField>
-      <Button fx:id="btnChose" layoutX="501.0" layoutY="257.0" mnemonicParsing="false" onAction="#btnChose" prefHeight="25.0" prefWidth="110.0" stylesheets="@../../../css/my.css" text="ВЫБРАТЬ" AnchorPane.bottomAnchor="101.0" AnchorPane.rightAnchor="54.0">
+      <Button fx:id="btnChose" layoutX="505.0" layoutY="270.0" mnemonicParsing="false" onAction="#btnChose" prefHeight="25.0" prefWidth="110.0" stylesheets="@../../../css/my.css" text="ВЫБРАТЬ" AnchorPane.bottomAnchor="88.0" AnchorPane.rightAnchor="30.0">
          <effect>
             <DropShadow />
          </effect>
       </Button>
-      <Button fx:id="btnStart" layoutX="226.0" layoutY="307.0" mnemonicParsing="false" onAction="#btnStart" prefHeight="45.0" prefWidth="213.0" stylesheets="@../../../css/my.css" text="СТАРТ" AnchorPane.bottomAnchor="31.0" AnchorPane.rightAnchor="226.0">
+      <Button fx:id="btnStart" layoutX="481.0" layoutY="325.0" mnemonicParsing="false" onAction="#btnStart" prefHeight="35.0" prefWidth="110.0" stylesheets="@../../../css/my.css" text="СТАРТ" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="30.0">
          <effect>
             <DropShadow />
          </effect>
@@ -44,6 +45,26 @@
             <DropShadow />
          </effect>
       </ProgressBar>
-      <Label fx:id="labelProgress" layoutX="50.0" layoutY="178.0" prefHeight="59.0" prefWidth="565.0" visible="false" wrapText="true" />
+      <Label fx:id="labelProgress" layoutX="50.0" layoutY="178.0" prefHeight="59.0" prefWidth="565.0" visible="false" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" />
+      <CheckBox fx:id="cbPampers" layoutX="50.0" layoutY="57.0" mnemonicParsing="false" stylesheets="@../../../css/my.css" text="Подгузники" AnchorPane.leftAnchor="30.0">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="cbWipes" layoutX="50.0" layoutY="95.0" mnemonicParsing="false" stylesheets="@../../../css/my.css" text="Влажные салфетки" AnchorPane.leftAnchor="30.0">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="cbNappies" layoutX="50.0" layoutY="136.0" mnemonicParsing="false" stylesheets="@../../../css/my.css" text="Гигиенические пеленки и клеенки" AnchorPane.leftAnchor="30.0">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </CheckBox>
+      <Label layoutX="50.0" layoutY="23.0" text="Выберите категорию (иначе будут выбраны все категории)" AnchorPane.leftAnchor="30.0">
+         <font>
+            <Font name="Baskerville Old Face" size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

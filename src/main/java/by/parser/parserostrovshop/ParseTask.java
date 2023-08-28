@@ -17,9 +17,11 @@ import java.util.Objects;
 public class ParseTask extends Task<Void> {
 
     private final String path;
+    private final ArrayList<String> categories;
 
-    public ParseTask(String path) {
+    public ParseTask(String path, ArrayList<String> categories) {
         this.path = path;
+        this.categories = categories;
     }
 
     @Override
@@ -33,16 +35,18 @@ public class ParseTask extends Task<Void> {
 
         Document document;
         try {
-            document = Jsoup.connect(baseUrl + "/catalog/tovary-dlya-detey/gigiena-i-ukhod-za-detmi/podguzniki/")
-                    .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
-                    .timeout(5000)
-                    .ignoreContentType(true)
-                    .ignoreHttpErrors(true)
-                    .referrer("https://www.google.com/").get();
+            for (String category : categories){
+                document = Jsoup.connect(baseUrl + category)
+                        .userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36")
+                        .timeout(5000)
+                        .ignoreContentType(true)
+                        .ignoreHttpErrors(true)
+                        .referrer("https://www.google.com/").get();
 
-            Elements elements = document.getElementsByClass("dinamic_info_wrapper");
-            updateMessage("Получение ссылок на страницы с товаром");
-            elements.forEach(item -> links.add(baseUrl + item.getElementsByClass("item-title title-heigh").get(0).child(0).attr("href")));
+                Elements elements = document.getElementsByClass("dinamic_info_wrapper");
+                updateMessage("Получение ссылок на страницы с товаром");
+                elements.forEach(item -> links.add(baseUrl + item.getElementsByClass("item-title title-heigh").get(0).child(0).attr("href")));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -217,6 +221,11 @@ public class ParseTask extends Task<Void> {
         headStyle.setWrapText(true);
         priceHead.setCellStyle(headStyle);
 
+        XSSFCell priceOneHead = head.createCell(++startColumn);
+        priceOneHead.setCellValue("Цена за 1 шт, руб.");
+        headStyle.setWrapText(true);
+        priceOneHead.setCellStyle(headStyle);
+
         XSSFCell oldPriceHead = head.createCell(++startColumn);
         oldPriceHead.setCellValue("Старая цена, руб.");
         headStyle.setWrapText(true);
@@ -297,6 +306,15 @@ public class ParseTask extends Task<Void> {
             contentStyle.setWrapText(true);
             price.setCellValue(nom.price());
             price.setCellStyle(contentDecimalStyle);
+
+            //Цена за 1 шт
+            XSSFCell priceOne = content.createCell(++startColumnContent);
+            contentStyle.setVerticalAlignment(VerticalAlignment.TOP);
+            contentStyle.setWrapText(true);
+            if (nom.price() > 0 && nom.countInPackage() > 0){
+                priceOne.setCellValue(nom.price() / nom.countInPackage());
+            }
+            priceOne.setCellStyle(contentDecimalStyle);
 
             //Старая цена
             XSSFCell oldPrice = content.createCell(++startColumnContent);
