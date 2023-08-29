@@ -35,6 +35,12 @@ public class MainController {
     @FXML
     private CheckBox cbWipes;
 
+    @FXML
+    private Button btnStart;
+
+    @FXML
+    private Button btnChose;
+
 
     private final ArrayList<String> categories = new ArrayList<>();
 
@@ -121,10 +127,12 @@ public class MainController {
             ParseTask myTask = new ParseTask(tfPath.getText().trim(), categories);
             progressBar.progressProperty().bind(myTask.progressProperty());
             labelProgress.textProperty().bind(myTask.messageProperty());
+            setDisable(true);
 
             myTask.setOnSucceeded(myEvent -> {
                 progressBar.setVisible(false);
                 labelProgress.setVisible(false);
+                setDisable(false);
 
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Файл успешно сохранен по указанному пути: " + tfPath.getText().trim());
                 alert.setTitle("Создание файла");
@@ -138,5 +146,13 @@ public class MainController {
             Thread thread = new Thread(myTask);
             thread.start();
         }
+    }
+
+    private void setDisable(Boolean value){
+        cbWipes.setDisable(value);
+        cbNappies.setDisable(value);
+        cbPampers.setDisable(value);
+        btnChose.setDisable(value);
+        btnStart.setDisable(value);
     }
 }
